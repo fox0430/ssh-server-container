@@ -7,8 +7,8 @@ RUN apk update \
       && touch /run/openrc/softlevel \
       && rc-update add sshd && rc-status
 
-RUN adduser -D ssh-user
-# ssh password
-RUN echo "ssh-user:testpass" | chpasswd
+RUN adduser -D user
+
+RUN sed -i 's/#PasswordAuthentication.*/PasswordAuthentication no/' /etc/ssh/sshd_config
 
 CMD /etc/init.d/sshd start && tail -f /dev/null
